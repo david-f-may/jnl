@@ -322,17 +322,20 @@ cat temp.txt
 
 ################################################################################
 [_] Lay out Scope of Work (SOW) for the project.
-[_] Work with stakeholders to clarify the idea.
-[_] Define roles and objectives.
-[_] Schedule and implement scrum.
-[_] Initial few scrum meetings.
-[_] Assign tasks and duties, with clear deliverables and dates.
-[_] Cast the vision for the idea.
-[_] Set out initial timeline.
-[_] Verify with team the feasibility of maintaining the timeline.
-[_] Adjust deliverables accordingly.
-[_] Answer questions and set priorities.
-[_] Monitor project and set timelines.
+    [_] Work with stakeholders to clarify the idea.
+    [_] Confirm budget, milestones and team members.
+[_] Lay out project tasks and assign.
+    [_] Define roles and objectives.
+    [_] Communicate budget to team.
+    [_] Schedule and implement scrum.
+        [_] Initial few scrum meetings.
+            [_] Assign tasks and duties, with clear deliverables and dates.
+            [_] Cast the vision for the idea.
+            [_] Set out initial timeline.
+                [_] Verify with team the feasibility of maintaining the timeline.
+                [_] Adjust deliverables accordingly.
+            [_] Answer questions and set priorities.
+    [_] Monitor project and set timelines moving forward.
 ```
 Note: it is best practice to put the line of 80 hashes at the beginning of a
 page of data.
@@ -346,32 +349,32 @@ jnl main.jnl --id 9 --show_todo
 
 ################################################################################
 [_] Lay out Scope of Work (SOW) for the project.
-[_] Work with stakeholders to clarify the idea.
-[_] Confirm budget, milestones and team members.
+    [_] Work with stakeholders to clarify the idea.
+    [_] Confirm budget, milestones and team members.
 [_] Lay out project tasks and assign.
-[_] Define roles and objectives.
-[_] Communicate budget to team.
-[_] Schedule and implement scrum.
-[_] Initial few scrum meetings.
-[_] Assign tasks and duties, with clear deliverables and dates.
-[_] Cast the vision for the idea.
-[_] Set out initial timeline.
-[_] Verify with team the feasibility of maintaining the timeline.
-[_] Adjust deliverables accordingly.
-[_] Answer questions and set priorities.
-[_] Monitor project and set timelines moving forward.
+    [_] Define roles and objectives.
+    [_] Communicate budget to team.
+    [_] Schedule and implement scrum.
+        [_] Initial few scrum meetings.
+            [_] Assign tasks and duties, with clear deliverables and dates.
+            [_] Cast the vision for the idea.
+            [_] Set out initial timeline.
+                [_] Verify with team the feasibility of maintaining the timeline.
+                [_] Adjust deliverables accordingly.
+            [_] Answer questions and set priorities.
+    [_] Monitor project and set timelines moving forward.
 
 Legend
 ===============
-clear => [_]
-done => [X]
+clear =>    [_]
+done =>     [X]
 delegate => [>]
-cancel => [-]
-now => [!]
-soon => [+]
-start => [/]
-note => [*]
-null => [?]
+cancel =>   [-]
+now =>      [!]
+soon =>     [+]
+start =>    [/]
+note =>     [*]
+null =>     [?]
 ===============
 ```
 
@@ -396,38 +399,38 @@ jnl main.jnl --id 9 --show_todo
 
 ################################################################################
 [X] Lay out Scope of Work (SOW) for the project.
-[X] Work with stakeholders to clarify the idea.
-[X] Confirm budget, milestones and team members.
-[*] Met with stakeholders 11/24. They confirmed our understanding of the main
-idea. They confirmed our budget of $85K (not including team member salaries).
-They liked our layout of milestones and gave us the thumbs up.
+    [X] Work with stakeholders to clarify the idea.
+    [X] Confirm budget, milestones and team members.
+        [*] Met with stakeholders 11/24. They confirmed our understanding of the main
+            idea. They confirmed our budget of $85K (not including team member salaries).
+            They liked our layout of milestones and gave us the thumbs up.
 
-The project is a go.
+            The project is a go.
 [_] Lay out project tasks and assign.
-[_] Define roles and objectives.
-[-] Communicate budget to team.
-[*] The team does not need this information.
-[_] Schedule and implement scrum.
-[_] Initial few scrum meetings.
-[_] Assign tasks and duties, with clear deliverables and dates.
-[_] Cast the vision for the idea.
-[_] Set out initial timeline.
-[_] Verify with team the feasibility of maintaining the timeline.
-[_] Adjust deliverables accordingly.
-[_] Answer questions and set priorities.
-[_] Monitor project and set timelines moving forward.
+    [_] Define roles and objectives.
+    [-] Communicate budget to team.
+        [*] The team does not need this information.
+    [_] Schedule and implement scrum.
+        [_] Initial few scrum meetings.
+            [_] Assign tasks and duties, with clear deliverables and dates.
+            [_] Cast the vision for the idea.
+            [_] Set out initial timeline.
+                [_] Verify with team the feasibility of maintaining the timeline.
+                [_] Adjust deliverables accordingly.
+            [_] Answer questions and set priorities.
+    [_] Monitor project and set timelines moving forward.
 
 Legend
 ===============
-clear => [_]
-done => [X]
+clear =>    [_]
+done =>     [X]
 delegate => [>]
-cancel => [-]
-now => [!]
-soon => [+]
-start => [/]
-note => [*]
-null => [?]
+cancel =>   [-]
+now =>      [!]
+soon =>     [+]
+start =>    [/]
+note =>     [*]
+null =>     [?]
 ===============
 ```
 
@@ -442,38 +445,46 @@ jnl main.jnl --id 9 --show_todo
 [X] Work with stakeholders to clarify the idea.
 [X] Confirm budget, milestones and team members.
 [*] Met with stakeholders 11/24. They confirmed our understanding of the main
-idea. They confirmed our budget of $85K (not including team member salaries).
-They liked our layout of milestones and gave us the thumbs up.
+    idea. They confirmed our budget of $85K (not including team member salaries).
+    They liked our layout of milestones and gave us the thumbs up.
 
-The project is a go.
+    The project is a go.
+[X] Lay out Scope of Work (SOW) for the project.
+    [X] Work with stakeholders to clarify the idea.
+    [X] Confirm budget, milestones and team members.
+        [*] Met with stakeholders 11/24. They confirmed our understanding of the main
+            idea. They confirmed our budget of $85K (not including team member salaries).
+            They liked our layout of milestones and gave us the thumbs up.
+
+            The project is a go.
 [X] Lay out project tasks and assign.
-[X] Define roles and objectives.
-[-] Communicate budget to team.
-[*] The team does not need this information.
-[X] Schedule and implement scrum.
-[X] Initial few scrum meetings.
-[>] Assign tasks and duties, with clear deliverables and dates.
-[*] You will want to note who is doing what.
-[X] Cast the vision for the idea.
-[X] Set out initial timeline.
-[-] Verify with team the feasibility of maintaining the timeline.
-[-] Adjust deliverables accordingly.
-[*] Again, take copious notes and document.
-[X] Answer questions and set priorities.
-[X] Monitor project and set timelines moving forward.
-[*] Project completed 12/30/2023.
+    [X] Define roles and objectives.
+    [-] Communicate budget to team.
+        [*] The team does not need this information.
+    [X] Schedule and implement scrum.
+        [X] Initial few scrum meetings.
+            [>] Assign tasks and duties, with clear deliverables and dates.
+                [*] You will want to note who is doing what.
+            [X] Cast the vision for the idea.
+            [X] Set out initial timeline.
+                [-] Verify with team the feasibility of maintaining the timeline.
+                [-] Adjust deliverables accordingly.
+                    [*] Again, take copious notes and document.
+            [X] Answer questions and set priorities.
+    [X] Monitor project and set timelines moving forward.
+    [*] Project completed 12/30/2023.
 
 Legend
 ===============
-clear => [_]
-done => [X]
+clear =>    [_]
+done =>     [X]
 delegate => [>]
-cancel => [-]
-now => [!]
-soon => [+]
-start => [/]
-note => [*]
-null => [?]
+cancel =>   [-]
+now =>      [!]
+soon =>     [+]
+start =>    [/]
+note =>     [*]
+null =>     [?]
 ===============
 
 jnl main.jnl --id 9 --done
