@@ -231,6 +231,8 @@ jnl main.jnl --help
 
 to get a summary.
 
+## Todos
+
 Finally, I will cover todo logs. Todo logs are similar to other journal logs
 except that they are designed to be top-level holders of todo information.
 They
