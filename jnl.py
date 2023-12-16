@@ -257,6 +257,10 @@ COMMIT;
 ########################################################################################################################
 ################################################################################
 main_help_description = '''
+# jnl.py
+
+## Getting started
+
 jnl is a command-line application following the spirit of bullet journaling as
 detailed in the Bullet Journal method by Ryder Carroll. It is written in Python,
 and is a simple application at its core.
@@ -264,24 +268,32 @@ and is a simple application at its core.
 To start using jnl, you need to initialize the journal file, which is
 essentially a SQLite database file.
 
+```
 python3.11 jnl main.jnl
 Created journal file main.jnl
-
-Once you create the jnl file, you can use
-
-jnl main.jnl --help
-
-to get a summary of the commands supported by the jnl program.
+```
 
 This will create a SQLite database file called main.jnl and get it ready for
 holding your journal data. Any command will initialize the jnl file, but will
 not do anything else if the file doesn't exist. It is probably just as easy
 to provide the jnl command with the name of the database file to initialize it.
 
-Once the jnl file is initialized, you can start entering commands to populate
-the journal file. For example, you can enter a log.
+Once you create the jnl file, you can use
 
+```
+jnl main.jnl --help
+```
+
+to get a summary of the commands supported by the jnl program.
+
+## Using jnl
+
+When the jnl file is initialized, you can enter commands to populate the
+journal file. For example, you can enter a log.
+
+```
 jnl main.jnl --add --log "took M3 and Noah to Sadies"
+```
 
 In Ryder's Bullet journal method, a log is an entry that states what is
 happening in your life or something you did. In the above log, I indicate that
@@ -290,6 +302,7 @@ detailed using logs.
 
 After the above entry, you can get a listing of what is in the journal file with
 
+```
 jnl main.jnl --ls
  ** TYPE ** :  ** PAGE ** :  ** ITEM_ID ** :  ** CREATED ** :  ** UPDATED ** :  ** ITEM ** 
 
@@ -305,6 +318,7 @@ jnl main.jnl --ls
 *** Open todos ***
 
  *** No open todo items *** 
+```
 
 This looks a little intimidating, so let's step through it. The first line shows
 you what the fields are in each entry. In this case, the log is given by a • as
@@ -314,13 +328,13 @@ the type. Other types are ideas (☼), notes (❃), quotes (”) and todos
 The next field (after the ':') shows either — (an emdash) or ◫. The emdash means
 there is no page associated with this item; the ◫ means there is a page. A page
 is an arbitrarily large body of text associated with the item. For example, an
-item of 'took M3 and Noah to Sadies' could be self-explanitory. However, if
+item of 'took M3 and Noah to Sadies' is likely self-explanitory. However, if
 something interesting happened there (you met a celebraty, someone accused you
 falsely of harrassing them, etc.), you might want to add some explanatory text.
 Or if you have an idea that needs considerable information fleshed out for it,
 you may have many pages worth of text associated with it.
 
-The next field above is a number called the item_id. This is a unique number that
+The next field is a number called the item_id. This is a unique number that
 identifies the item.
 
 The next two items are dates. The first one is the date that the item was created,
@@ -338,6 +352,7 @@ it is now.
 
 The following are other examples of logging:
 
+```
 jnl main.jnl --add --log 'work: info for Jenny'
 LOG added...
 jnl main.jnl --add --idea 'house project: colaborate with Joel'
@@ -366,19 +381,23 @@ jnl main.jnl --ls
 *** Open todos ***
 
  *** No open todo items *** 
+```
 
- This shows the possible logs you can use in the journal: a log (sorry for the
- ambiguity in terminology) - •, an idea - ☼,  a quot(e) - ” and a note - ❃.
- These provide the core journal information, which is represented int he order
- of the create date.
+This shows the possible logs you can use in the journal: a log (sorry for the
+ambiguity in terminology) - •, an idea - ☼,  a quot(e) - ” and a note - ❃.
+These provide the core journal information, which is represented in the order
+of the create date.
 
- Although the item_id cannot and will not change, the create date can be changed
- with the following command:
- 
- jnl main.jnl --id 4 --dt "2023-11-20"
+Although the item_id cannot and will not change, the create date can be changed
+with the following command:
 
- This will change the output of --ls to the following:
+``` 
+jnl main.jnl --id 4 --dt "2023-11-20"
+```
 
+This will change the output of --ls to the following:
+
+```
  jnl main.jnl --ls
  ** TYPE ** :  ** PAGE ** :  ** ITEM_ID ** :  ** CREATED ** :  ** UPDATED ** :  ** ITEM ** 
 
@@ -398,6 +417,7 @@ jnl main.jnl --ls
 *** Open todos ***
 
  *** No open todo items *** 
+```
 
 Notice that item 4 is now at the top of the list, because the create date for
 the item is earlier than the others in the journal.
@@ -405,39 +425,56 @@ the item is earlier than the others in the journal.
 Finally, you can add an arbitrary amount of data to each log. Consider the
 following:
 
+```
 jnl main.jnl --add --log 'caught a nasty virus'
 jnl main.jnl --id 7 --dt '2023-11-11'
+```
 
 Now I want to add the following to this log:
 
+```
 <snip>
 
+################################################################################
 I caught a nasty virus on 11/11/2023 and finally got to feeling better on
-11/18/2023. Aches, fever, chills for a solid week.
+11/18/2023.
 
-It didn't hit my lungs like Covid-19 did, though.
+Aches, fever, chills for a solid week. I took IVM and HCQ to help get over it.
+
+It didn't hit my lungs like Covid did.
 <snip>
+```
 
 Simply edit a file, and put this information in it. I used temp.txt as a file
 name. Then,
 
+```
 jnl main.jnl --id 7 --pg --file temp.txt
 jnl main.jnl --id 7 --show_pg
+• : ◫ : 7: 2023-11-11 20:12:03: 2023-12-15 21:10:06: caught nasty virus
 
+################################################################################
 I caught a nasty virus on 11/11/2023 and finally got to feeling better on
-11/18/2023. Aches, fever, chills for a solid week.
+11/18/2023.
 
-It didn't hit my lungs like Covid-19 did, though.
+Aches, fever, chills for a solid week. I took IVM and HCQ to help get over it.
+
+It didn't hit my lungs like Covid did.
+```
 
 There are other features you can use with your journal logs. Use
 
+```
 jnl main.jnl --help
+```
 
 to get a summary.
 
 Finally, I will cover todo logs. Todo logs are similar to other journal logs
 except that they are designed to be top-level holders of todo information. They
 might be a stand-alone todo item, like
+
+### CONTINUE HERE
 
 jnl main.jnl --add --todo 'groceries: stock up at Sams'
 TODO added...
@@ -1290,15 +1327,23 @@ def do_show_pg (fn: str, id: str) -> bool:
         return False
     r = cur.fetchone()
     # 0 = item_id, 1 = item_type, 2 = dtime, 3 = updt, 4 = is_pg, 5 = is_done, 6 = item
-    bullet = todo
+    bullet = dot
     pg = str
     if not r:
         return False
+    if r[1] == 'LOG':
+        bullet = dot
+    if r[1] == 'NOTE':
+        bullet = note
+    if r[1] == 'IDEA':
+        bullet = idea
+    if r[1] == 'QUOT':
+        bullet = quot
     if r[4] and r[4] == 0:
         pg = non
     else:
         pg = page
-    s = "{} : {} : {}: {}: {}: {}\n".format (bullet, pg, r[0], r[2], r[3], r[6])
+    s = "{} : {} : {}: {}: {} | {}\n".format (bullet, pg, r[0], r[2], r[3], r[6])
     print (s)
 
     s = """SELECT data FROM page WHERE item_id IS {}""".format(id)
@@ -1359,7 +1404,7 @@ def do_show_todo (fn: str, id: str) -> bool:
         pg = non
     else:
         pg = page
-    s = "{} : {} : {}: {}: {}: {}".format (bullet, pg, r[0], r[2], r[3], r[6])
+    s = "{} : {} : {}: {}: {} | {}".format (bullet, pg, r[0], r[2], r[3], r[6])
     print (s)
 
     s = """SELECT data FROM page WHERE item_id IS {}""".format(id)
