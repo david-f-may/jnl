@@ -1,12 +1,5 @@
 # jnl.py
 
-```
-usage: jnl [-h] [-a] [--done] [--dt DT] [--edit] [--file FILE] [-i IDEA]
-           [--id ID] [--item ITEM] [-l LOG] [--ls] [-n NOTE] [--pg] [-q QUOT]
-           [--show_pg] [--show_todo] [-t TODO] [--rm]
-           FILENAME
-```
-
 ## Getting started
 
 jnl is a command-line application following the spirit of bullet journaling as
@@ -501,6 +494,10 @@ Sams
 I hope you enjoy using jnl as much as I do!
 
 ```
+usage: jnl [-h] [-a] [--done] [--dt DT] [--edit] [--file FILE] [-i IDEA]
+           [--id ID] [--item ITEM] [-l LOG] [--ls] [-n NOTE] [--pg] [-q QUOT]
+           [--show_pg] [--show_todo] [-t TODO] [--rm]
+           FILENAME
 
 positional arguments:
   FILENAME              The journal file name.
