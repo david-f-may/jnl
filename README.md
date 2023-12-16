@@ -232,11 +232,9 @@ jnl main.jnl --help
 to get a summary.
 
 ## Todos
-
 Finally, I will cover todo logs. Todo logs are similar to other journal logs
 except that they are designed to be top-level holders of todo information.
-They
-might be a stand-alone todo item, like
+They might be a stand-alone todo item, like
 
 ```
 jnl main.jnl --add --todo 'groceries: stock up at Sams'
@@ -267,8 +265,7 @@ file
 ```
 
 This is probably a one-time item, so once you have completed it, you can mark
-it
-as --done.
+it as --done.
 
 ```
 jnl main.jnl --id 8 --done
@@ -287,16 +284,14 @@ Sams
 ```
 
 Then, it will be marked with an ✗ instead of a ✓. Notice that the logged
-journal
-entries will simply scroll through at the top. They are logs, basically. They
-show stuff that is important to track (log, if you will), but is not stuff you
-are necessarily working on right now. The completed todos and the open todos,
-however, are indicative of stuff you are working on or have recently
-completed.
+journal entries will simply scroll through at the top. They are logs,
+basically. They show stuff that is important to track (log, if you will),
+but is not stuff you are necessarily working on right now. The completed
+todos and the open todos, however, are indicative of stuff you are working
+on or have recently completed.
 
 But todos are more powerful than this. Say, for example, that you want to
-track
-todo items for a high-level todo.
+track todo items for a high-level todo.
 
 ```
 jnl main.jnl --add --todo 'work: project with Jenny'
@@ -336,6 +331,7 @@ cat temp.txt
                 [_] Adjust deliverables accordingly.
             [_] Answer questions and set priorities.
     [_] Monitor project and set timelines moving forward.
+
 ```
 Note: it is best practice to put the line of 80 hashes at the beginning of a
 page of data.
@@ -441,14 +437,6 @@ use --done on the project to end it.
 jnl main.jnl --id 9 --show_todo
 ✓ : ◫ : 9: 2023-11-24 17:15:37: 2023-11-24 17:52:59 | work: project with Jenny
 
-[X] Lay out Scope of Work (SOW) for the project.
-[X] Work with stakeholders to clarify the idea.
-[X] Confirm budget, milestones and team members.
-[*] Met with stakeholders 11/24. They confirmed our understanding of the main
-    idea. They confirmed our budget of $85K (not including team member salaries).
-    They liked our layout of milestones and gave us the thumbs up.
-
-    The project is a go.
 [X] Lay out Scope of Work (SOW) for the project.
     [X] Work with stakeholders to clarify the idea.
     [X] Confirm budget, milestones and team members.
