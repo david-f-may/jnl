@@ -474,8 +474,7 @@ Finally, I will cover todo logs. Todo logs are similar to other journal logs
 except that they are designed to be top-level holders of todo information. They
 might be a stand-alone todo item, like
 
-### CONTINUE HERE
-
+```
 jnl main.jnl --add --todo 'groceries: stock up at Sams'
 TODO added...
 
@@ -499,15 +498,17 @@ dmay@dmay:~$ jnl main.jnl --ls
 *** Open todos ***
 
 ✓ : — : 8: 2023-11-24 17:10:02: None | groceries: stock up at Sams
+```
 
 This is probably a one-time item, so once you have completed it, you can mark it
 as --done.
 
+```
 jnl main.jnl --id 8 --done
 Set item 8 to done...
 
 jnl main.jnl --ls
-...
+<skipping...>
 *** Completed todos ***
 
 ✗ : — : 8: 2023-11-24 17:10:02: 2023-11-24 17:11:23 | groceries: stock up at Sams
@@ -515,20 +516,22 @@ jnl main.jnl --ls
 *** Open todos ***
 
  *** No open todo items *** 
+```
 
 Then, it will be marked with an ✗ instead of a ✓. Notice that the logged journal
 entries will simply scroll through at the top. They are logs, basically. They
 show stuff that is important to track (log, if you will), but is not stuff you
 are necessarily working on right now. The completed todos and the open todos,
-however, are indicative of stuff you are working on or have completed.
+however, are indicative of stuff you are working on or have recently completed.
 
 But todos are more powerful than this. Say, for example, that you want to track
 todo items for a high-level todo.
 
+```
 jnl main.jnl --add --todo 'work: project with Jenny'
 TODO added..
 jnl main.jnl --ls
-...
+<skipping...>
 *** Completed todos ***
 
 ✗ : — : 8: 2023-11-24 17:10:02: 2023-11-24 17:11:23 | groceries: stock up at Sams
@@ -536,12 +539,15 @@ jnl main.jnl --ls
 *** Open todos ***
 
 ✓ : — : 9: 2023-11-24 17:15:37: None | work: project with Jenny
+```
 
 So, we have a high-level project item. You can flesh this out with various todo
 items as follows:
 
+```
 cat temp.txt
 
+################################################################################
 [_] Lay out Scope of Work (SOW) for the project.
     [_] Work with stakeholders to clarify the idea.
     [_] Define roles and objectives.
@@ -554,13 +560,18 @@ cat temp.txt
                 [_] Adjust deliverables accordingly.
             [_] Answer questions and set priorities.
     [_] Monitor project and set timelines.
+```
+Note: it is best practice to put the line of 80 hashes at the beginning of a
+page of data.
 
+```
 jnl main.jnl --id 9--pg --file temp.txt
 Added pg from temp.txt to item_id 9...
 
 jnl main.jnl --id 9 --show_todo
-✓ : ◫ : 9: 2023-11-24 17:15:37: 2023-11-24 17:24:34: work: project with Jenny
+✓ : ◫ : 9: 2023-11-24 17:15:37: 2023-11-24 17:24:34 | work: project with Jenny
 
+################################################################################
 [_] Lay out Scope of Work (SOW) for the project.
     [_] Work with stakeholders to clarify the idea.
     [_] Confirm budget, milestones and team members.
@@ -589,22 +600,26 @@ start =>    [/]
 note =>     [*]
 null =>     [?]
 ===============
+```
 
 Notice the legend. As you work through the project, you will add items, mark
 them as done or not needed, prioritize them and move them around in the list
 by priorities, enter clarifying notes and cancel them.
 
-I have found this by far to be the most fluid and flexible way to manage a
+Editing this in an editor each time it changes may seem cumbersome, but I have
+found through experience that this is the most fluid and flexible way to manage a
 body of tasks and track progress. For example, say you meet with the stakeholders
 and adjust the project tasks. First, edit the page associated with the project
 and update it in the database:
 
+```
 jnl main.jnl --id 9 --pg --file temp.txt
 Added pg from temp.txt to item_id 9...
 
 jnl main.jnl --id 9 --show_todo
-✓ : ◫ : 9: 2023-11-24 17:15:37: 2023-11-24 17:44:09: work: project with Jenny
+✓ : ◫ : 9: 2023-11-24 17:15:37: 2023-11-24 17:44:09 | work: project with Jenny
 
+################################################################################
 [X] Lay out Scope of Work (SOW) for the project.
     [X] Work with stakeholders to clarify the idea.
     [X] Confirm budget, milestones and team members.
@@ -640,12 +655,14 @@ start =>    [/]
 note =>     [*]
 null =>     [?]
 ===============
+```
 
 Once you have completed the project and handled all tasks as outlined, then
 use --done on the project to end it.
 
+```
 jnl main.jnl --id 9 --show_todo
-✓ : ◫ : 9: 2023-11-24 17:15:37: 2023-11-24 17:52:59: work: project with Jenny
+✓ : ◫ : 9: 2023-11-24 17:15:37: 2023-11-24 17:52:59 | work: project with Jenny
 
 [X] Lay out Scope of Work (SOW) for the project.
     [X] Work with stakeholders to clarify the idea.
@@ -672,7 +689,6 @@ jnl main.jnl --id 9 --show_todo
     [X] Monitor project and set timelines moving forward.
     [*] Project completed 12/30/2023.
 
-
 Legend
 ===============
 clear =>    [_]
@@ -690,7 +706,7 @@ jnl main.jnl --id 9 --done
 Set item 9 to done...
 jnl main.jnl --ls
  ** TYPE ** :  ** PAGE ** :  ** ITEM_ID ** :  ** CREATED ** :  ** UPDATED ** :  ** ITEM ** 
-...
+<skipping...>
 *** Completed todos ***
 
 ✗ : — : 8: 2023-11-24 17:10:02: 2023-11-24 17:11:23 | groceries: stock up at Sams
@@ -699,8 +715,11 @@ jnl main.jnl --ls
 *** Open todos ***
 
  *** No open todo items *** 
+```
 
-I hope you enjoy using jnl!
+I hope you enjoy using jnl as much as I do!
+
+```
 '''
 ################################################################################
 
@@ -1471,9 +1490,36 @@ def flag_todo_done (fn: str, id: str) -> bool:
 ### Grab a quick snapshot of the command-line, pythonically
 cmd = " ".join(sys.argv[:])
 
+class SmartFormatter(argparse.HelpFormatter):
+    def _split_lines(self, text: str, width: int) -> list[str]:
+        lines: list[str] = []
+        for line_str in text.split('\n'):
+            line: list[str] = []
+            line_len = 0
+            for word in line_str.split():
+                word_len = len(word)
+                next_len = line_len + word_len
+                if line: next_len += 1
+                if next_len > width:
+                    lines.append(' '.join(line))
+                    line.clear()
+                    line_len = 0
+                elif line:
+                    line_len += 1
+
+                line.append(word)
+                line_len += word_len
+
+            lines.append(' '.join(line))
+        return lines
+    
+    def _fill_text(self, text: str, width: int, indent: str) -> str:
+        return '\n'.join(indent + line for line in self._split_lines(text, width - len(indent)))
+
 parser = argparse.ArgumentParser(
     prog="jnl",
-    formatter_class=argparse.RawDescriptionHelpFormatter,
+#    formatter_class=argparse.RawDescriptionHelpFormatter,
+    formatter_class=SmartFormatter,
     description=main_help_description)
 
 parser.add_argument(
@@ -1614,6 +1660,7 @@ parser.add_argument (
     dest='is_rm',
     help="Move an item to the archive table")
 
+cmd1 = None
 args = parser.parse_args()
 
 if not args.filename:
@@ -1662,7 +1709,7 @@ if args.is_edit:
     if ok:
         print ("Edited item from item_id {} with '{}'...".format(args.id, args.item))
 
-if args.is_ls:
+if args.is_ls or cmd1 is None:
     if args.is_add:
         print ("***Error: cannot add while doing an --ls")
         sys.exit(3)
