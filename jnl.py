@@ -1709,11 +1709,10 @@ if args.is_edit:
     if ok:
         print ("Edited item from item_id {} with '{}'...".format(args.id, args.item))
 
-if args.is_ls or cmd1 is None:
+if args.is_ls:
     if args.is_add:
         print ("***Error: cannot add while doing an --ls")
         sys.exit(3)
-    #cmd1 = '{} {} --ls'.format (sys.argv[0],args.filename)
     ok = do_ls(args.filename)
     if ok:
         sys.exit(0)
@@ -1796,6 +1795,14 @@ if args.is_rm:
         sys.exit(3)
     cmd1 = '{} {} --id {} --rm'.format (sys.argv[0], args.filename, args.id)
     ok = do_rm(args.filename, args.id)
+
+if cmd1 is None:
+    ok = do_ls(args.filename)
+    if ok:
+        sys.exit(0)
+    else:
+        sys.exit(1)
+
 
 # Stamp the command into the cmd_line table.
 ok = stamp_command (args.filename, cmd1)
