@@ -1336,7 +1336,7 @@ def do_show_pg (fn: str, id: str) -> bool:
         return False
     # Good sqlite file. Proceed.
 
-    s = """SELECT * FROM item WHERE item_id IS {} AND is_done is 0""".format(id)
+    s = """SELECT * FROM item WHERE item_id IS {}""".format(id)
     try:
         cur.execute(s)
     except sql.Error as em:
@@ -1358,6 +1358,10 @@ def do_show_pg (fn: str, id: str) -> bool:
         bullet = idea
     if r[1] == 'QUOT':
         bullet = quot
+    if r[1] == 'TODO':
+        bullet = todo
+    if r[5] == 1:
+        bullet = done
     if r[4] and r[4] == 0:
         pg = non
     else:
@@ -1386,7 +1390,7 @@ def do_show_pg (fn: str, id: str) -> bool:
 ### do_show_todo
 ########################################################################################################################
 def do_show_todo (fn: str, id: str) -> bool:
-    """Show the pg  for todo in fn given by id."""
+    """Show the item and pg  for todo in fn given by id."""
     # Open journal file
     try:
         con = sql.connect (fn)
@@ -1440,6 +1444,50 @@ def do_show_todo (fn: str, id: str) -> bool:
             print (r[0])
     print (legend)
 
+
+    cur.close()
+    con.close()
+    return True
+ 
+
+########################################################################################################################
+### do_show_all_todos
+########################################################################################################################
+def do_show_all_todos (fn: str) -> bool:
+    """Show the items and pgs for all todos."""
+    # Open journal file
+    try:
+        con = sql.connect (fn)
+        cur = con.cursor()
+    except sql.Error as em:
+        print ("*** SQLite error opening Journal file: {}".format (em))
+        return False
+
+    # Verify it is a sqlite journal file.
+    try:
+        cur.execute('SELECT * FROM item WHERE item_type = "NONE"')
+    except sql.Error as em:
+        print ("***Error: {} '{}'".format(args.filename, em))
+        cur.close()
+        con.close()
+        return False
+    # Good sqlite file. Proceed.
+
+    s = """SELECT item_id FROM item WHERE item_type IS 'TODO' AND is_done IS 0"""
+    try:
+        cur.execute(s)
+    except sql.Error as em:
+        print ("*** Error: {} '{}'".format(s, em))
+        cur.close()
+        con.close()
+        return False
+    row = cur.fetchall()
+    for r in row:
+        if r and r[0]:
+            print ("\n")
+            res = do_show_todo (fn, r[0])
+            if res is False:
+                print ("Failed trying to print todo given by item_id {}".format (r[0]))
 
     cur.close()
     con.close()
@@ -1635,6 +1683,12 @@ parser.add_argument (
     dest="is_show_todo",
     help="Print the todo and its page on the screen for a given todo item")
 
+parser.add_argument (
+    '--show_all_todos',
+    action="store_true",
+    dest="is_show_all_todos",
+    help="Print all todos/pages on the screen")
+
 # parser.add_argument (
 #     '--soon',
 #     action="store_true",
@@ -1788,6 +1842,10 @@ if args.is_show_todo:
         sys.exit(3)
     cmd1 = '{} {} --id {} --show_todo'.format (sys.argv[0], args.filename, args.id)
     ok = do_show_todo(args.filename, args.id)
+
+if args.is_show_all_todos:
+    cmd1 = '{} {} --show_all_todos'.format (sys.argv[0], args.filename, args.id)
+    ok = do_show_all_todos(args.filename)
 
 if args.is_rm:
     if not args.id:
