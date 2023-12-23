@@ -1055,6 +1055,7 @@ def do_edit (fn: str, id: str, itm: str) -> bool:
 ### do_ls
 ########################################################################################################################
 def do_ls (fn: str) -> bool:
+    '''Print all items to the screen, sorted by todo, completed todo and others.'''
     # Open journal file
     try:
         con = sql.connect (fn)
@@ -1161,6 +1162,73 @@ def do_ls (fn: str) -> bool:
         ls_dat.append (s)
     if len(ls_dat) == 0:
         print (" *** No open todo items *** \n")
+    else:
+        for s in ls_dat:
+            print (s)
+    # Done
+    cur.close()
+    con.close()
+    return True
+
+########################################################################################################################
+### do_ls_all
+########################################################################################################################
+def do_ls_all (fn: str) -> bool:
+    '''Print all the items without sorting by todo and non-todo, only by date.'''
+    # Open journal file
+    try:
+        con = sql.connect (fn)
+        cur = con.cursor()
+    except sql.Error as em:
+        print ("*** SQLite error opening Journal file: {}".format (em))
+        return False
+
+    # Verify it is a sqlite journal file.
+    try:
+        cur.execute('SELECT * FROM item WHERE item_type = "NONE"')
+    except sql.Error as em:
+        print ("***Error: {} '{}'".format(args.filename, em))
+        cur.close()
+        con.close()
+        return False
+    # Good sqlite file. Proceed.
+
+    # Build the SELECT
+    s = """SELECT * FROM item WHERE item_type IS NOT 'NONE' ORDER BY dtime;"""
+    try:
+        cur.execute(s)
+    except sql.Error as em:
+        print ("*** Error: {} '{}'".format(s, em))
+        cur.close()
+        con.close()
+        return False
+    ls_dat = []
+    rows = cur.fetchall()
+    # 0 = item_id, 1 = item_type, 2 = dtime, 3 = updt, 4 = is_pg, 5 = is_done, 6 = item
+    s = '{}: {}: {}: {}: {}: {}'.format(' ** TYPE ** ', ' ** PAGE ** ',' ** ITEM_ID ** ', ' ** CREATED ** ', ' ** UPDATED ** ',' ** ITEM ** ')
+    print (s)
+    print ("\n*** Logs, ideas, quotes, notes ***\n")
+    for r in rows:
+        bullet = dot
+        if r[1] == 'LOG':
+            bullet = dot
+        if r[1] == 'NOTE':
+            bullet = note
+        if r[1] == 'IDEA':
+            bullet = idea
+        if r[1] == 'QUOT':
+            bullet = quot
+        if r[1] == 'TODO':
+            bullet = todo
+        pg = str
+        if r[4] == 0:
+            pg = non
+        else:
+            pg = page
+        s = '{} : {} : {}: {}: {} | {}'.format (bullet, pg, r[0], r[2], r[3], r[6])
+        ls_dat.append (s)
+    if len(ls_dat) == 0:
+        print (" *** No items to output *** ")
     else:
         for s in ls_dat:
             print (s)
@@ -1652,6 +1720,12 @@ parser.add_argument (
     help = "List all items")
 
 parser.add_argument (
+    '--all',
+    action="store_true",
+    dest="is_all",
+    help = "List all items without separating todos from the others")
+
+parser.add_argument (
     '-n',
     '--note',
     dest='note',
@@ -1767,7 +1841,10 @@ if args.is_ls:
     if args.is_add:
         print ("***Error: cannot add while doing an --ls")
         sys.exit(3)
-    ok = do_ls(args.filename)
+    if args.is_all:
+        ok = do_ls_all (args.filename)
+    else:
+        ok = do_ls(args.filename)
     if ok:
         sys.exit(0)
     else:
