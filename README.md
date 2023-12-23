@@ -496,9 +496,11 @@ I hope you enjoy using jnl as much as I do!
 
 ```
 usage: jnl [-h] [-a] [--done] [--dt DT] [--edit] [--file FILE] [-i IDEA]
-           [--id ID] [--item ITEM] [-l LOG] [--ls] [-n NOTE] [--pg] [-q QUOT]
-           [--show_pg] [--show_todo] [--show_all_todos] [-t TODO] [--rm]
+           [--id ID] [--item ITEM] [-l LOG] [--ls] [--all] [-n NOTE] [--pg]
+           [-q QUOT] [--show_pg] [--show_todo] [--show_all_todos] [-t TODO]
+           [--rm]
            FILENAME
+
 
 positional arguments:
   FILENAME              The journal file name.
@@ -515,6 +517,7 @@ options:
   --item ITEM           Get an item from the user for edit
   -l LOG, --log LOG     Add a log item to the journal
   --ls                  List all items
+  --all                 List all items by date - works only with --ls
   -n NOTE, --note NOTE  Add a note item to the journal
   --pg                  Add a page to an item
   -q QUOT, --quot QUOT  Add a quote to the journal

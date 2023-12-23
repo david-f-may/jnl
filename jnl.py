@@ -1174,7 +1174,7 @@ def do_ls (fn: str) -> bool:
 ### do_ls_all
 ########################################################################################################################
 def do_ls_all (fn: str) -> bool:
-    '''Print all the items without sorting by todo and non-todo, only by date.'''
+    '''Print all the items without sorting by todo and non-todo, only by date. Works only with --ls.'''
     # Open journal file
     try:
         con = sql.connect (fn)
@@ -1723,7 +1723,7 @@ parser.add_argument (
     '--all',
     action="store_true",
     dest="is_all",
-    help = "List all items without separating todos from the others")
+    help = "List all items by date - works only with --ls")
 
 parser.add_argument (
     '-n',
@@ -1761,7 +1761,7 @@ parser.add_argument (
     '--show_all_todos',
     action="store_true",
     dest="is_show_all_todos",
-    help="Print all todos/pages on the screen")
+    help="Print all open todos/pages on the screen")
 
 # parser.add_argument (
 #     '--soon',
