@@ -242,7 +242,7 @@ CREATE TABLE archive (
     item TEXT,
     pg_data TEXT
 );
-INSERT INTO archive VALUES(1,NULL,datetime('now','localtime'),NULL,'Journal archive table created.',NULL);
+INSERT INTO archive VALUES(1,'NONE',datetime('now','localtime'),NULL,NULL,'Journal archive table created.',NULL);
 COMMIT;
 
 -- =====================================================================================================================
@@ -1755,7 +1755,7 @@ parser.add_argument (
     '--show_todo',
     action="store_true",
     dest="is_show_todo",
-    help="Print the todo and its page on the screen for a given todo item")
+    help="Print the open todo and its page on the screen for a given todo item")
 
 parser.add_argument (
     '--show_all_todos',
