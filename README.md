@@ -497,10 +497,9 @@ I hope you enjoy using jnl as much as I do!
 ```
 usage: jnl [-h] [-a] [--done] [--dt DT] [--edit] [--file FILE] [-i IDEA]
            [--id ID] [--item ITEM] [-l LOG] [--ls] [--all] [-n NOTE] [--pg]
-           [-q QUOT] [--show_pg] [--show_todo] [--show_all_todos] [-t TODO]
-           [--rm]
+           [-q QUOT] [--show_pg] [--show_todo] [--show_all_todos] [--dump]
+           [--dump_cmd_line] [-t TODO] [--rm]
            FILENAME
-
 
 positional arguments:
   FILENAME              The journal file name.
@@ -522,9 +521,10 @@ options:
   --pg                  Add a page to an item
   -q QUOT, --quot QUOT  Add a quote to the journal
   --show_pg             Print a page for an item
-  --show_todo           Print the todo and its page on the screen for a given
-                        todo item
-  --show_all_todos      Print all todos/pages on the screen
+  --show_todo           Print an open todo and its page on the screen
+  --show_all_todos      Print all open todos/pages on the screen
+  --dump                Print all items and pages on the screen
+  --dump_cmd_line       Dump all commands executed to the screen
   -t TODO, --todo TODO  Add a todo item to the journal
   --rm                  Move an item to the archive table
 

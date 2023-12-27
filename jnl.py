@@ -1519,6 +1519,88 @@ def do_show_todo (fn: str, id: str) -> bool:
  
 
 ########################################################################################################################
+### do_dump
+########################################################################################################################
+def do_dump (fn: str) -> bool:
+    """Dump all items, including pages."""
+    # Open journal file
+    try:
+        con = sql.connect (fn)
+        cur = con.cursor()
+    except sql.Error as em:
+        print ("*** SQLite error opening Journal file: {}".format (em))
+        return False
+
+    # Verify it is a sqlite journal file.
+    try:
+        cur.execute('SELECT * FROM item WHERE item_type = "NONE"')
+    except sql.Error as em:
+        print ("***Error: {} '{}'".format(args.filename, em))
+        cur.close()
+        con.close()
+        return False
+    # Good sqlite file. Proceed.
+
+    s = """SELECT item_id FROM item ORDER BY dtime"""
+    try:
+        cur.execute(s)
+    except sql.Error as em:
+        print ("*** Error: {} '{}'".format(s, em))
+        cur.close()
+        con.close()
+        return False
+    row = cur.fetchall()
+    for r in row:
+        if not r:
+            continue
+        rtn = do_show_pg (fn, r[0])
+        if not rtn:
+            return False
+    cur.close()
+    con.close()
+    return True
+
+########################################################################################################################
+### do_dump_cmd_line
+########################################################################################################################
+def do_dump_cmd_line (fn: str) -> bool:
+    """Dump all commands."""
+    # Open journal file
+    try:
+        con = sql.connect (fn)
+        cur = con.cursor()
+    except sql.Error as em:
+        print ("*** SQLite error opening Journal file: {}".format (em))
+        return False
+
+    # Verify it is a sqlite journal file.
+    try:
+        cur.execute('SELECT * FROM item WHERE item_type = "NONE"')
+    except sql.Error as em:
+        print ("***Error: {} '{}'".format(args.filename, em))
+        cur.close()
+        con.close()
+        return False
+    # Good sqlite file. Proceed.
+
+    s = """SELECT cmd FROM cmd_line ORDER BY dtime"""
+    try:
+        cur.execute(s)
+    except sql.Error as em:
+        print ("*** Error: {} '{}'".format(s, em))
+        cur.close()
+        con.close()
+        return False
+    row = cur.fetchall()
+    for r in row:
+        if not r:
+            continue
+        print (r[0])
+    cur.close()
+    con.close()
+    return True
+
+########################################################################################################################
 ### do_show_all_todos
 ########################################################################################################################
 def do_show_all_todos (fn: str) -> bool:
@@ -1561,7 +1643,6 @@ def do_show_all_todos (fn: str) -> bool:
     con.close()
     return True
  
-
 ########################################################################################################################
 ### flag_todo_done
 ########################################################################################################################
@@ -1749,19 +1830,31 @@ parser.add_argument (
     '--show_pg',
     action="store_true",
     dest="is_show_pg",
-    help = "Print a page for an item")
+    help = "Print an item and its page (if it has one)")
 
 parser.add_argument (
     '--show_todo',
     action="store_true",
     dest="is_show_todo",
-    help="Print the open todo and its page on the screen for a given todo item")
+    help="Print an open todo and its page on the screen")
 
 parser.add_argument (
     '--show_all_todos',
     action="store_true",
     dest="is_show_all_todos",
     help="Print all open todos/pages on the screen")
+
+parser.add_argument (
+    '--dump',
+    action="store_true",
+    dest="is_dump",
+    help="Print all items and pages on the screen")
+
+parser.add_argument (
+    '--dump_cmd_line',
+    action="store_true",
+    dest="is_dump_cmd_line",
+    help="Dump all commands executed to the screen")
 
 # parser.add_argument (
 #     '--soon',
@@ -1921,8 +2014,16 @@ if args.is_show_todo:
     ok = do_show_todo(args.filename, args.id)
 
 if args.is_show_all_todos:
-    cmd1 = '{} {} --show_all_todos'.format (sys.argv[0], args.filename, args.id)
+    cmd1 = '{} {} --show_all_todos'.format (sys.argv[0], args.filename)
     ok = do_show_all_todos(args.filename)
+
+if args.is_dump:
+    cmd1 = '{} {} --dump'.format(sys.argv[0], args.filename)
+    ok = do_dump(args.filename)
+
+if args.is_dump_cmd_line:
+    cmd1 = '{} {} --dump_cmd_line'.format(sys.argv[0], args.filename)
+    ok = do_dump_cmd_line(args.filename)
 
 if args.is_rm:
     if not args.id:
