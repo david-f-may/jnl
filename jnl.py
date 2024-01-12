@@ -1104,7 +1104,7 @@ def do_ls (fn: str) -> bool:
             pg = non
         else:
             pg = page
-        s = '{} : {} : {}: {}: {} | {}'.format (bullet, pg, r[0], r[2], r[3], r[6])
+        s = '{0} : {1} : {2:>5d}: {3:<19s}: {4:<19s} | {5}'.format (bullet, pg, r[0], str(r[2]), str(r[3]), r[6])
         ls_dat.append (s)
     if len(ls_dat) == 0:
         print (" *** No items to output *** ")
@@ -1131,7 +1131,7 @@ def do_ls (fn: str) -> bool:
             pg = non
         else:
             pg = page
-        s = '{} : {} : {}: {}: {} | {}'.format (bullet, pg, r[0], r[2], r[3], r[6])
+        s = '{0} : {1} : {2:>5d}: {3:<19s}: {4:<19s} | {5}'.format (bullet, pg, r[0], str(r[2]), str(r[3]), r[6])
         ls_dat.append (s)
     if len(ls_dat) == 0:
         print (" *** No completed todo items *** \n")
@@ -1158,7 +1158,7 @@ def do_ls (fn: str) -> bool:
             pg = non
         else:
             pg = page
-        s = '{} : {} : {}: {}: {} | {}'.format (bullet, pg, r[0], r[2], r[3], r[6])
+        s = '{0} : {1} : {2:>5d}: {3:<19s}: {4:<19s} | {5}'.format (bullet, pg, r[0], str(r[2]), str(r[3]), r[6])
         ls_dat.append (s)
     if len(ls_dat) == 0:
         print (" *** No open todo items *** \n")
@@ -1225,7 +1225,7 @@ def do_ls_all (fn: str) -> bool:
             pg = non
         else:
             pg = page
-        s = '{} : {} : {}: {}: {} | {}'.format (bullet, pg, r[0], r[2], r[3], r[6])
+        s = '{0} : {1} : {2:>5d}: {3:<19s}: {4:<19s} | {5}'.format (bullet, pg, r[0], str(r[2]), str(r[3]), r[6])
         ls_dat.append (s)
     if len(ls_dat) == 0:
         print (" *** No items to output *** ")
@@ -1434,7 +1434,7 @@ def do_show_pg (fn: str, id: str) -> bool:
         pg = non
     else:
         pg = page
-    s = "{} : {} : {}: {}: {} | {}\n".format (bullet, pg, r[0], r[2], r[3], r[6])
+    s = '{0} : {1} : {2:>5d}: {3:<19s}: {4:<19s} | {5}'.format (bullet, pg, r[0], str(r[2]), str(r[3]), r[6])
     print (s)
 
     s = """SELECT data FROM page WHERE item_id IS {}""".format(id)
@@ -1495,7 +1495,7 @@ def do_show_todo (fn: str, id: str) -> bool:
         pg = non
     else:
         pg = page
-    s = "{} : {} : {}: {}: {} | {}".format (bullet, pg, r[0], r[2], r[3], r[6])
+    s = '{0} : {1} : {2:>5d}: {3:<19s}: {4:<19s} | {5}'.format (bullet, pg, r[0], str(r[2]), str(r[3]), r[6])
     print (s)
 
     s = """SELECT data FROM page WHERE item_id IS {}""".format(id)
