@@ -495,10 +495,10 @@ Sams
 I hope you enjoy using jnl as much as I do!
 
 ```
-usage: jnl [-h] [-a] [--done] [--dt DT] [--edit] [--file FILE] [-i IDEA]
-           [--id ID] [--item ITEM] [-l LOG] [--ls] [--all] [-n NOTE] [--pg]
-           [-q QUOT] [--show_pg] [--show_todo] [--show_all_todos] [--dump]
-           [--dump_cmd_line] [-t TODO] [--rm]
+usage: jnl [-h] [-a] [--done] [--dt DT] [--tstmp TSTMP] [--edit] [--file FILE]
+           [-i IDEA] [--id ID] [--item ITEM] [-l LOG] [--ls] [--all] [-n NOTE]
+           [--pg] [-q QUOT] [--show_pg] [--show_todo] [--show_all_todos]
+           [--dump] [--dump_cmd_line] [-t TODO] [--rm]
            FILENAME
 
 positional arguments:
@@ -508,7 +508,8 @@ options:
   -h, --help            show this help message and exit
   -a, --add             Add a log or todo item
   --done                Flag a todo item given by id as done
-  --dt DT               Change the create date for an item
+  --dt DT               Change the create date for an item with current time
+  --tstmp TSTMP         Change the create date for an item with updated time
   --edit                Edit a todo, log, note, idea or quot item
   --file FILE           Get a file name from the user
   -i IDEA, --idea IDEA  Add an idea item to the journal
@@ -520,13 +521,11 @@ options:
   -n NOTE, --note NOTE  Add a note item to the journal
   --pg                  Add a page to an item
   -q QUOT, --quot QUOT  Add a quote to the journal
-  --show_pg             Print a page for an item
+  --show_pg             Print an item and its page (if it has one)
   --show_todo           Print an open todo and its page on the screen
   --show_all_todos      Print all open todos/pages on the screen
   --dump                Print all items and pages on the screen
   --dump_cmd_line       Dump all commands executed to the screen
   -t TODO, --todo TODO  Add a todo item to the journal
   --rm                  Move an item to the archive table
-
-
 ```

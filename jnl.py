@@ -785,6 +785,18 @@ def fixup_date (dt: str) -> str:
     return str(d)
 
 ########################################################################################################################
+### change_date
+########################################################################################################################
+def change_date (dt: str) -> str:
+    """Change the date/time stamp."""
+    try:
+        d = datetime.datetime.strptime (dt, '%Y-%m-%d %H:%M:%S')
+    except ValueError:
+        print ("*** Error: Date {} must be provided in 'YYYY-MM-DD HH:MM:SS' format".format (dt))
+        sys.exit(3)
+    return str(d)
+
+########################################################################################################################
 ### do_create_date
 ########################################################################################################################
 def do_create_date (fn: str, id: str, dt: str) -> bool:
@@ -1753,8 +1765,14 @@ parser.add_argument (
 parser.add_argument (
     '--dt',
     dest='dt',
-    help="Change the create date for an item",
+    help="Change the create date for an item with current time",
     metavar="DT")
+
+parser.add_argument (
+    '--tstmp',
+    dest='tstmp',
+    help="Change the create date for an item with  updated time",
+    metavar="TSTMP")
 
 parser.add_argument (
     '--edit',
@@ -1915,7 +1933,15 @@ if args.dt:
         print ("*** Error: you must include --id <item_id> with a --dt option.")
         sys.exit(3)
     dt = fixup_date (args.dt)
-    cmd1 = '{} {} --id {} --dt "{}"'.format (sys.argv[0],args.filename,args.id,args.dt)
+    cmd1 = '{} {} --id {} --dt "{}"'.format (sys.argv[0],args.filename,args.id,dt)
+    ok = do_create_date (args.filename, args.id, dt)
+
+if args.tstmp:
+    if not args.id:
+        print ("*** Error: you must include --id <item_id> with a --tstmp option.")
+        sys.exit(3)
+    dt = change_date (args.tstmp)
+    cmd1 = '{} {} --id {} --tstmp "{}"'.format (sys.argv[0],args.filename,args.id,dt)
     ok = do_create_date (args.filename, args.id, dt)
 
 if args.is_edit:
