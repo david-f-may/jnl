@@ -1294,7 +1294,7 @@ def do_rm (fn: str, id: str) -> bool:
         updt = 'NULL'
     is_pg = r[3]
     item = r[4]
-    s = """BEGIN TRANSACTION; INSERT INTO archive VALUES({},'{}','{}','{}',datetime('now','localtime'),'{}','{}','NULL'); COMMIT;""".format (id,item_type,dtime,updt,is_pg,item)
+    s = """BEGIN TRANSACTION; INSERT INTO archive VALUES({},'{}','{}','{}','{}','{}','NULL'); COMMIT;""".format (id,item_type,dtime,updt,is_pg,item)
     try:
         cur.executescript(s)
     except sql.Error as em:

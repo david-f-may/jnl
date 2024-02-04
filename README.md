@@ -218,7 +218,7 @@ jnl main.jnl --id 7 --show_pg
 I caught a nasty virus on 11/11/2023 and finally got to feeling better on
 11/18/2023.
 
-Aches, fever, chills for a solid week. I took IVM and HCQ to help get over it.
+Aches, fever, chills for a solid week.
 
 It didn't hit my lungs like Covid did.
 ```
