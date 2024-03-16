@@ -884,9 +884,23 @@ def do_log (fn: str, log: str) -> bool:
         cur.close()
         con.close()
         return False
-    cur.close()
-    con.close()
-    return True
+    # Return the item_id of the item just entered
+    try:
+        cur.execute("SELECT MAX(item_id) FROM item;")
+    except sql.Error as em:
+        print ("***Error: {} '{}'".format(fn, em))
+        cur.close()
+        con.close()
+        return False
+    row = cur.fetchone()
+    if row and row[0]:
+        cur.close()
+        con.close()
+        return row[0]
+    else:
+        cur.close()
+        con.close()
+        return False
 
 ########################################################################################################################
 ### do_note
@@ -919,9 +933,23 @@ def do_note (fn: str, note: str) -> bool:
         cur.close()
         con.close()
         return False
-    cur.close()
-    con.close()
-    return True
+    # Return the item_id of the item just entered
+    try:
+        cur.execute("SELECT MAX(item_id) FROM item;")
+    except sql.Error as em:
+        print ("***Error: {} '{}'".format(fn, em))
+        cur.close()
+        con.close()
+        return False
+    row = cur.fetchone()
+    if row and row[0]:
+        cur.close()
+        con.close()
+        return row[0]
+    else:
+        cur.close()
+        con.close()
+        return False
 
 ########################################################################################################################
 ### do_idea
@@ -954,9 +982,23 @@ def do_idea (fn: str, idea: str) -> bool:
         cur.close()
         con.close()
         return False
-    cur.close()
-    con.close()
-    return True
+    # Return the item_id of the item just entered
+    try:
+        cur.execute("SELECT MAX(item_id) FROM item;")
+    except sql.Error as em:
+        print ("***Error: {} '{}'".format(fn, em))
+        cur.close()
+        con.close()
+        return False
+    row = cur.fetchone()
+    if row and row[0]:
+        cur.close()
+        con.close()
+        return row[0]
+    else:
+        cur.close()
+        con.close()
+        return False
 
 ########################################################################################################################
 ### do_quot
@@ -989,9 +1031,23 @@ def do_quot (fn: str, quot: str) -> bool:
         cur.close()
         con.close()
         return False
-    cur.close()
-    con.close()
-    return True
+    # Return the item_id of the item just entered
+    try:
+        cur.execute("SELECT MAX(item_id) FROM item;")
+    except sql.Error as em:
+        print ("***Error: {} '{}'".format(fn, em))
+        cur.close()
+        con.close()
+        return False
+    row = cur.fetchone()
+    if row and row[0]:
+        cur.close()
+        con.close()
+        return row[0]
+    else:
+        cur.close()
+        con.close()
+        return False
 
 ########################################################################################################################
 ### do_todo
@@ -1024,9 +1080,23 @@ def do_todo (fn: str, td: str) -> bool:
         cur.close()
         con.close()
         return False
-    cur.close()
-    con.close()
-    return True
+    # Return the item_id of the item just entered
+    try:
+        cur.execute("SELECT MAX(item_id) FROM item;")
+    except sql.Error as em:
+        print ("***Error: {} '{}'".format(fn, em))
+        cur.close()
+        con.close()
+        return False
+    row = cur.fetchone()
+    if row and row[0]:
+        cur.close()
+        con.close()
+        return row[0]
+    else:
+        cur.close()
+        con.close()
+        return False
 
 ########################################################################################################################
 ### do_edit
@@ -1916,8 +1986,10 @@ if not os.path.isfile(args.filename):
 if args.is_add and args.log:
     cmd1 = '{} {} --add --log "{}"'.format (sys.argv[0], args.filename, args.log)
     ok = do_log(args.filename, args.log)
-    if ok:
-        print ("LOG added...")
+    if ok is False:
+        print ('*** Error in --add --log "{}"'.format (args.log))
+    else:
+        print ("LOG added: {}...".format (ok))
 
 if args.is_done:
     if not args.id:
@@ -1979,8 +2051,10 @@ if args.log and not args.is_add:
 if args.is_add and args.note:
     cmd1 = '{} {} --add --note "{}"'.format (sys.argv[0], args.filename, args.note)
     ok = do_note(args.filename, args.note)
-    if ok:
-        print ("NOTE added...")
+    if ok is False:
+        print ('*** Error in --add --note "{}"'.format (args.note))
+    else:
+        print ("NOTE added: {}...".format (ok))
 
 if args.note and not args.is_add:
     print ("***Warning: You need --add with --note to add a note. Nothing changed.")
@@ -1988,8 +2062,10 @@ if args.note and not args.is_add:
 if args.is_add and args.idea:
     cmd1 = '{} {} --add --idea "{}"'.format (sys.argv[0], args.filename, args.idea)
     ok = do_idea(args.filename, args.idea)
-    if ok:
-        print ("IDEA added...")
+    if ok is False:
+        print ('*** Error in --add --idea "{}"'.format (args.idea))
+    else:
+        print ("IDEA added: {}...".format (ok))
 
 if args.idea and not args.is_add:
     print ("***Warning: You need --add with --idea to add an idea. Nothing changed.")
@@ -1997,8 +2073,10 @@ if args.idea and not args.is_add:
 if args.is_add and args.quot:
     cmd1 = '{} {} --add --quot "{}"'.format (sys.argv[0], args.filename, args.quot)
     ok = do_quot(args.filename, args.quot)
-    if ok:
-        print ("QUOT added...")
+    if ok is False:
+        print ('*** Error in --add --quot "{}"'.format (args.quot))
+    else:
+        print ("QUOT added: {}...".format (ok))
 
 if args.quot and not args.is_add:
     print ("***Warning: You need --add with --quot to add a quot. Nothing changed.")
@@ -2007,8 +2085,10 @@ if args.is_add and args.todo:
     # Enter a todo item
     cmd1 = '{} {} --add --todo "{}"'.format (sys.argv[0], args.filename, args.todo)
     ok = do_todo (args.filename, args.todo)
-    if ok:
-        print ("TODO added...")
+    if ok is False:
+        print ('*** Error in --add --todo "{}"'.format (args.todo))
+    else:
+        print ("TODO added: {}...".format (ok))
 
 if args.todo and not args.is_add:
     print ("***Warning: You need --add with --todo to add a todo item. Nothing changed.")
