@@ -1134,6 +1134,139 @@ def do_edit (fn: str, id: str, itm: str) -> bool:
     return True
 
 ########################################################################################################################
+### do_recent
+########################################################################################################################
+def do_recent (fn: str) -> bool:
+    '''Print num items to the screen, sorted by todo,  others.'''
+    # Number of items to sort. Change this if you want more or fewer.
+    num = 5
+    # Open journal file
+    try:
+        con = sql.connect (fn)
+        cur = con.cursor()
+    except sql.Error as em:
+        print ("*** SQLite error opening Journal file: {}".format (em))
+        return False
+
+    # Verify it is a sqlite journal file.
+    try:
+        cur.execute('SELECT * FROM item WHERE item_type = "NONE"')
+    except sql.Error as em:
+        print ("***Error: {} '{}'".format(args.filename, em))
+        cur.close()
+        con.close()
+        return False
+    # Good sqlite file. Proceed.
+
+    # Build the SELECT
+    s = """SELECT * FROM item WHERE item_type IS NOT 'NONE' and item_type IS NOT 'TODO' ORDER BY dtime;"""
+    try:
+        cur.execute(s)
+    except sql.Error as em:
+        print ("*** Error: {} '{}'".format(s, em))
+        cur.close()
+        con.close()
+        return False
+    ls_dat = []
+    rows = cur.fetchall()
+    # 0 = item_id, 1 = item_type, 2 = dtime, 3 = updt, 4 = is_pg, 5 = is_done, 6 = item
+    s = '{}: {}: {}: {}: {}: {}'.format(' ** TYPE ** ', ' ** PAGE ** ',' ** ITEM_ID ** ', ' ** CREATED ** ', ' ** UPDATED ** ',' ** ITEM ** ')
+    print (s)
+    print ("\n*** Logs, ideas, quotes, notes ***\n")
+    for r in rows:
+        bullet = dot
+        if r[1] == 'LOG':
+            bullet = dot
+        if r[1] == 'NOTE':
+            bullet = note
+        if r[1] == 'IDEA':
+            bullet = idea
+        if r[1] == 'QUOT':
+            bullet = quot
+        pg = str
+        if r[4] == 0:
+            pg = non
+        else:
+            pg = page
+        s = '{0} : {1} : {2:>5d}: {3:<19s}: {4:<19s} | {5}'.format (bullet, pg, r[0], str(r[2]), str(r[3]), r[6])
+        ls_dat.append (s)
+    n = len(ls_dat)
+    if n == 0:
+        print (" *** No items to output *** ")
+    elif n < num:
+        for s in ls_dat:
+            print (s)
+    else:
+        for s in ls_dat[-num:]:
+            print (s)
+    # Next, grab completed todos and print them.
+    s = """SELECT * FROM item WHERE item_type IS 'TODO' AND is_done IS 1 ORDER BY item_id"""
+    try:
+        cur.execute(s)
+    except sql.Error as em:
+        print ("*** Error: {} '{}'".format(s, em))
+        cur.close()
+        con.close()
+        return False
+    ls_dat = []
+    rows = cur.fetchall()
+    # 0 = item_id, 1 = item_type, 2 = dtime, 3 = updt, 4 = is_pg, 5 = is_done, 6 = item
+    print ("\n*** Completed todos ***\n")
+    bullet = done
+    for r in rows:
+        pg = str
+        if r[4] == 0:
+            pg = non
+        else:
+            pg = page
+        s = '{0} : {1} : {2:>5d}: {3:<19s}: {4:<19s} | {5}'.format (bullet, pg, r[0], str(r[2]), str(r[3]), r[6])
+        ls_dat.append (s)
+    n = len(ls_dat)
+    if len(ls_dat) == 0:
+        print (" *** No completed todo items *** \n")
+    elif n < num:
+        for s in ls_dat:
+            print (s)
+    else:
+        for s in ls_dat[-num:]:
+            print (s)
+    # Next, grab current todos and print them.
+    s = """SELECT * FROM item WHERE item_type IS 'TODO' and is_done IS 0 ORDER BY item_id;"""
+    try:
+        cur.execute(s)
+    except sql.Error as em:
+        print ("*** Error: {} '{}'".format(s, em))
+        cur.close()
+        con.close()
+        return False
+    ls_dat = []
+    rows = cur.fetchall()
+    # 0 = item_id, 1 = item_type, 2 = dtime, 3 = updt, 4 = is_pg, 5 = is_done, 6 = item
+    print ("\n*** Open todos ***\n")
+    bullet = todo
+    for r in rows:
+        pg = str
+        if r[4] == 0:
+            pg = non
+        else:
+            pg = page
+        s = '{0} : {1} : {2:>5d}: {3:<19s}: {4:<19s} | {5}'.format (bullet, pg, r[0], str(r[2]), str(r[3]), r[6])
+        ls_dat.append (s)
+    n = len(ls_dat)
+    if n == 0:
+        print (" *** No open todo items *** \n")
+    elif n < num:
+        for s in ls_dat:
+            print (s)
+    else:
+        for s in ls_dat[-num:]:
+            print (s)
+    # Done
+    cur.close()
+    con.close()
+    return True
+
+########################################################################################################################
 ### do_ls
 ########################################################################################################################
 def do_ls (fn: str) -> bool:
@@ -1969,6 +2102,12 @@ parser.add_argument (
     dest='is_rm',
     help="Move an item to the archive table")
 
+parser.add_argument (
+    '--recent',
+    action="store_true",
+    dest='is_recent',
+    help="Show only the last five log,idea,note,quot items and the last five open todos")
+
 cmd1 = None
 args = parser.parse_args()
 
@@ -2036,6 +2175,16 @@ if args.is_ls:
         ok = do_ls_all (args.filename)
     else:
         ok = do_ls(args.filename)
+    if ok:
+        sys.exit(0)
+    else:
+        sys.exit(1)
+
+if args.is_recent:
+    if args.is_add:
+        print ("***Error: cannot add while doing a --recent")
+        sys.exit(3)
+    ok = do_recent (args.filename)
     if ok:
         sys.exit(0)
     else:
@@ -2139,7 +2288,7 @@ if args.is_rm:
     ok = do_rm(args.filename, args.id)
 
 if cmd1 is None:
-    ok = do_ls(args.filename)
+    ok = do_recent(args.filename)
     if ok:
         sys.exit(0)
     else:
